@@ -21,7 +21,37 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'phone_number',
+        'gender'
     ];
+
+    public function followingW()
+    {
+        return $this->belongsToMany(User::class, 'follows', 'followingW_id', 'followerU_id')->withTimestamps();
+    }
+    public function followingU()
+    {
+        return $this->belongsToMany(User::class, 'follows', 'followingW_id', 'followerU_id')->withTimestamps();
+    }
+
+    public function favorite()
+    {
+        return $this->belongsToMany(Post::class, 'favorites', 'user_id', 'post_id')->withTimestamps();
+    }
+
+    public function likes()
+    {
+        return $this->belongsToMany(Post::class, 'likes', 'user_id', 'post_id')->withTimestamps();
+    }
+
+    public function comment()
+    {
+        return $this->hasMany(Comment::class);
+    }
+    public function post()
+    {
+        return $this->hasMany(Post::class);
+    }
 
     /**
      * The attributes that should be hidden for serialization.
