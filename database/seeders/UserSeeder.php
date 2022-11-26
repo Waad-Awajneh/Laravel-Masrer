@@ -27,14 +27,14 @@ class UserSeeder extends Seeder
         //attach user to wedding planner
         foreach (User::all() as $following) {
             $follower = User::inRandomOrder()->take(rand(1, 3))->pluck('id')->unique()->toArray();
-            $following->followingU()->attach($follower);
+            $following->following()->attach($follower);
         }
 
 
         //attach wedding planner to users
         foreach (User::all() as $follower) {
             $following = User::inRandomOrder()->take(rand(1, 3))->pluck('id')->unique()->toArray();
-            $follower->followingW()->attach($following);
+            $follower->followers()->attach($following);
         }
 
 

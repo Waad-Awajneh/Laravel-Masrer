@@ -9,6 +9,7 @@ use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Route;
 use App\Http\Resources\CommentResource;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\CommentController;
 
 /*
@@ -81,3 +82,13 @@ Route::get('/user/{id}', function ($id) {
     return new UserResource(User::findOrFail($id));
 });
 
+
+//add Favorite
+
+Route::post('addFavorite/{post}', [PostController::class, 'addFavorite']);
+
+
+
+//add Followers
+
+Route::post('addFollowers/{weddingPlanner}', [UserController::class, 'addFollowers']);

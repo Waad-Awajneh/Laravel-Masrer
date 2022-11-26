@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Image;
 use App\Models\Post;
+use App\Models\Image;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -96,4 +97,12 @@ class PostController extends Controller
     {
         //
     }
+      public function addFavorite(Post $post)
+    {
+        $user=Auth::user();
+        $user->favorites()->attach($post->id);
+        
+        return response()->json('add to favorites');
+    }
+
 }

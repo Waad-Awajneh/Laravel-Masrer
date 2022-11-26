@@ -28,13 +28,13 @@ class User extends Authenticatable
         'gender'
     ];
 
-    public function followingW()
+    public function followers()
     {
-        return $this->belongsToMany(User::class, 'follows', 'followingW_id', 'followerU_id')->withTimestamps();
+        return $this->belongsToMany(User::class, 'follows', 'followers_id', 'following_id')->withTimestamps();
     }
-    public function followingU()
+    public function following()
     {
-        return $this->belongsToMany(User::class, 'follows', 'followerU_id', 'followingW_id')->withTimestamps();
+        return $this->belongsToMany(User::class, 'follows', 'following_id', 'followers_id')->withTimestamps();
     }
 
     public function favorites()
