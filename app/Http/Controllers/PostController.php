@@ -27,7 +27,8 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        //   $post = Post::create($request->all());
+        //   return response()->json(['post' => $post,]);
     }
 
     /**
@@ -39,12 +40,12 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $post = Post::create($request->all());
-        $image = Image::create(
-            [
-                'post_img' =>   $request->post_img,
-                'post_id' => $post->id
-            ]
-        );
+        // $image = Image::create(
+        //     [
+        //         'post_img' =>   $request->post_img,
+        //         'post_id' => $post->id
+        //     ]
+        // );
 
         return response()->json(['post' => $post, 'image' => $image]);
     }

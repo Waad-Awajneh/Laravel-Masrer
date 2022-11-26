@@ -15,9 +15,9 @@ class PostFactory extends Factory
      * @return array<string, mixed>
      */
     public function definition()
-    {
-        return [
-            //
+    { return [
+            'content' => fake()->paragraph(),
+       
         ];
     }
 }

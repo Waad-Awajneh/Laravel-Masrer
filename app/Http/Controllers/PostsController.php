@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Post;
-use App\Models\Comment;
+use App\Models\Posts;
 use Illuminate\Http\Request;
-use App\Http\Resources\CommentResource;
 
-class CommentController extends Controller
+class PostsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,9 +14,7 @@ class CommentController extends Controller
      */
     public function index()
     {
-        $comments = Comment::all();
-
-        return response()->json($comments);
+        //
     }
 
     /**
@@ -39,29 +35,27 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        $comment = Comment::create($request->all());
-        error_log($comment);
-        return response()->json($comment);
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Comment  $comment
+     * @param  \App\Models\Posts  $posts
      * @return \Illuminate\Http\Response
      */
-    public function show(Comment $comment)
+    public function show(Posts $posts)
     {
-        return response()->json($comment);
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Comment  $comment
+     * @param  \App\Models\Posts  $posts
      * @return \Illuminate\Http\Response
      */
-    public function edit(Comment $comment)
+    public function edit(Posts $posts)
     {
         //
     }
@@ -70,10 +64,10 @@ class CommentController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Comment  $comment
+     * @param  \App\Models\Posts  $posts
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Comment $comment)
+    public function update(Request $request, Posts $posts)
     {
         //
     }
@@ -81,22 +75,11 @@ class CommentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Comment  $comment
+     * @param  \App\Models\Posts  $posts
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Comment $comment)
+    public function destroy(Posts $posts)
     {
         //
     }
-
-
-     public function getCommentByPost(Post $post)
-    {
-        
-        $comments_info= CommentResource::collection($post->comments);
-
- return response()->json($comments_info);
-
-    }
-
 }

@@ -14,11 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('posts', function (Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedInteger("weddingP_id");
-            $table->longText("content");
+            $table->id();
             $table->timestamps();
-            $table->foreign("weddingP_id")->references('id')->on("users")->onDelete("cascade");
         });
     }
 
