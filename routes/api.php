@@ -8,6 +8,7 @@ use App\Http\Resources\PostResource;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Route;
 use App\Http\Resources\CommentResource;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CommentController;
@@ -29,17 +30,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 
-// Route::get('/index', [BooksController::class, 'index']);
-// Route::post('custom-registration', [CustomAuthController::class, 'customRegistration']);
-
-// $books = Books::all();
-
-// return response()->json($books);
-
-
-// $u = User::create($request->all());
-
-// return response()->json($u);
 
 
 //Add New Post
@@ -58,13 +48,12 @@ Route::post('addComment', [CommentController::class, 'store']);
 Route::get('getComments', [CommentController::class, 'index']);
 Route::get('getComment/{comment}', [CommentController::class, 'show']);
 Route::get('CommentsByPost/{post}', [CommentController::class, 'getCommentByPost']);
-// function ($post) {
-//     // return  new CommentResource(Post::findOrFail($post)->);
-// });
+
 //comments using Resources
 Route::get('comments', function () {
     return  CommentResource::collection(Comment::all());
 });
+
 Route::get('comment/{id}', function ($id) {
     return  new CommentResource(Comment::findOrFail($id));
 });
@@ -77,18 +66,21 @@ Route::get('comment/{id}', function ($id) {
 Route::get('/users', function () {
     return UserResource::collection(User::all());
 });
-
 Route::get('/user/{id}', function ($id) {
     return new UserResource(User::findOrFail($id));
 });
 
 
 //add Favorite
-
 Route::post('addFavorite/{post}', [PostController::class, 'addFavorite']);
 
 
 
 //add Followers
-
 Route::post('addFollowers/{weddingPlanner}', [UserController::class, 'addFollowers']);
+
+
+
+
+// Route::post('register', [AuthController::class, 'register'])
+//     ->name('register');
