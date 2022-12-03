@@ -23,8 +23,8 @@ return new class extends Migration
             $table->string('gender');
             $table->string('role')->default("user");
             $table->string('address');
-            $table->binary('cover_Img');//should have a default
-            $table->binary('profile_Img');//should have a default
+            $table->binary('cover_Img')->nullable(); //should have a default
+            $table->binary('profile_Img')->nullable(); //should have a default
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

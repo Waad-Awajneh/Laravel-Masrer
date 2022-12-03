@@ -80,7 +80,9 @@ Route::post('addFavorite/{post}', [PostController::class, 'addFavorite']);
 Route::post('addFollowers/{weddingPlanner}', [UserController::class, 'addFollowers']);
 
 
-
-
 // Route::post('register', [AuthController::class, 'register'])
 //     ->name('register');
+
+
+// Route::post('login', [AuthController::class, 'login'])
+//     ->name('login');

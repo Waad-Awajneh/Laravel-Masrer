@@ -18,10 +18,6 @@ class AuthController extends Controller
     use AuthResponse;
 
 
-
-
-
-
     public function login(Request $request)
     {
 
@@ -34,8 +30,10 @@ class AuthController extends Controller
                 'token_type' => 'Bearer',
             ]);
         } else {
+
             throw ValidationException::withMessages([
-                'email' => __('auth.failed'),
+
+                'email' => "Invalid email or password",
             ]);
         }
     }
@@ -57,8 +55,8 @@ class AuthController extends Controller
             'password' => ['required', 'confirmed', Password::defaults()],
             'phone_number' => 'required|min:10',
             'address' => 'required',
-            'profile_Img' => 'required',
-            'cover_Img' => 'required',
+            // 'profile_Img' => 'required',
+            // 'cover_Img' => 'required',
         ]);
 
 
