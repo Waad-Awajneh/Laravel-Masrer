@@ -48,7 +48,8 @@ class PostController extends Controller
         //     ]
         // );
 
-        return response()->json(['post' => $post, 'image' => $image]);
+        // return response()->json(['post' => $post, 'image' => $image]);
+        return response()->json(['post' => $post]);
     }
 
     /**
@@ -97,12 +98,11 @@ class PostController extends Controller
     {
         //
     }
-      public function addFavorite(Post $post)
+    public function addFavorite(Post $post)
     {
-        $user=Auth::user();
+        $user = Auth::user();
         $user->favorites()->attach($post->id);
-        
+
         return response()->json('add to favorites');
     }
-
 }

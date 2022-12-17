@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\FollowingResources;
+use App\Http\Resources\PostResource;
+use App\Http\Traits\AuthResponse;
+use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    use AuthResponse;
     /**
      * Display a listing of the resource.
      *
@@ -83,21 +88,27 @@ class UserController extends Controller
         //
     }
 
-//    public function addFollowing(User $user)
-//     {
-//         $user=Auth::user();
-//         $user->favorites()->attach($post->id);
-        
-//         return response()->json('add to favorites');
-//     }
+    //    public function addFollowing(User $user)
+    //     {
+    //         $user=Auth::user();
+    //         $user->favorites()->attach($post->id);
 
-    
-      public function addFollowers(User $weddingPlanner)
+    //         return response()->json('add to favorites');
+    //     }
+
+
+    public function addFollowers(User $weddingPlanner)
     {
-        $user=User::find(10);//Auth::user();
+        $user = User::find(10); //Auth::user();
         $weddingPlanner->followers()->attach($user->id);
-        
+
         return response()->json('add to followers');
     }
 
+
+    public function getFollowing(User $user)
+    {
+
+        return PostResource::collection(Post::whereIn('id', $user->following->modelKeys())->get());
+    }
 }

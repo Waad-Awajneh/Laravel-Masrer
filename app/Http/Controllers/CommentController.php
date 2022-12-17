@@ -90,13 +90,11 @@ class CommentController extends Controller
     }
 
 
-     public function getCommentByPost(Post $post)
+    public function getCommentByPost(Post $post)
     {
-        
-        $comments_info= CommentResource::collection($post->comments);
 
- return response()->json($comments_info);
+        $comments_info = CommentResource::collection($post->comments);
 
+        return response()->json($comments_info);
     }
-
 }

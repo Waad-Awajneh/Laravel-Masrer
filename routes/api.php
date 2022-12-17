@@ -37,7 +37,7 @@ Route::post('addPost', [PostController::class, 'store']);
 Route::get('getPosts', [PostController::class, 'index']);
 Route::get('getPost/{post}', [PostController::class, 'show']);
 //post Using Resources
-Route::get('/posts', function () {
+Route::get('/allPosts', function () {
     return PostResource::collection(Post::all());
 });
 
@@ -86,3 +86,6 @@ Route::post('addFollowers/{weddingPlanner}', [UserController::class, 'addFollowe
 
 // Route::post('login', [AuthController::class, 'login'])
 //     ->name('login');
+
+//following
+Route::get('/following/{user}', [UserController::class, 'getFollowing']);

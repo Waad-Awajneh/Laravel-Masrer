@@ -21,13 +21,13 @@ class UserFactory extends Factory
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'password' => '$2y$10$Y3ISCy8yLDWISY2h7OtlKOBenq2/.474jJHnqeC3mOxcEMpo5Pm7y', // 123456789Aa-
             'remember_token' => Str::random(10),
-            'address' =>fake()->address(),
-            'cover_Img' =>fake()->imageUrl($width = 640, $height = 480),
-            'profile_Img' =>fake()->imageUrl($width = 640, $height = 480),
-            'gender' => fake()->randomElement($array = array ('male','female')) ,
-            'phone_number'=>fake()->e164PhoneNumber(),
+            'address' => fake()->address(),
+            'cover_Img' => fake()->imageUrl($width = 640, $height = 480),
+            'profile_Img' => fake()->imageUrl($width = 640, $height = 480),
+            'gender' => fake()->randomElement($array = array('male', 'female')),
+            'phone_number' => fake()->e164PhoneNumber(),
         ];
     }
 

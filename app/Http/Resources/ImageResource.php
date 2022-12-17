@@ -6,20 +6,21 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class ImageResource extends JsonResource
 {
-    /**
-     * Transform the resource into an array.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
-     */
-    public function toArray($request)
-    {
+  /**
+   * Transform the resource into an array.
+   *
+   * @param  \Illuminate\Http\Request  $request
+   * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
+   */
+  public function toArray($request)
+  {
 
-  return [
-          "image_{$this->id}" => $this->post_img,
-          
-        ];
+    return [
 
-        // return parent::toArray($request);
-    }
+      "image" => $this->post_img,
+
+    ];
+
+    // return parent::toArray($request);
+  }
 }

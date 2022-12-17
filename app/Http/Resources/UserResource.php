@@ -15,26 +15,26 @@ class UserResource extends JsonResource
      */
     public function toArray($request)
     {
-         return [
+        return [
             'user_id' => $this->id,
             'full_name' => $this->name,
             'email' => $this->email,
-            'password'=> $this->password,
-            'profile_Img'=>$this->profile_Img,
-            'cover_Img'=>$this->cover_Img,
-            'address'=>$this->address,
-            'role'=>$this->role,
-            'gender'=>$this->gender ,
-            'phone_number'=>$this->phone_number,
-            // 'follower_count' =>$this->followingW,//data
-            // 'following_count' =>$this->followingU,//data
-            'following_count'=>count($this->followingW),//count
-            'follower_count' =>count($this->followingU),//count 
+            'password' => $this->password,
+            'profile_Img' => $this->profile_Img,
+            'cover_Img' => $this->cover_Img,
+            'address' => $this->address,
+            'role' => $this->role,
+            'gender' => $this->gender,
+            'phone_number' => $this->phone_number,
+            'follower_count' => $this->followers, //data
+            'following_count' => $this->following, //data
+            // 'following_count'=>count($this->followingW),//count
+            // 'follower_count' =>count($this->followingU),//count 
             //  'follower_count' =>$this->loadCount('followingU'), //data
 
             'posts' => PostResource::collection($this->posts),
-            'comments'=>$this->comments,
-            
+            'comments' => $this->comments,
+
         ];
         // return parent::toArray($request);
     }

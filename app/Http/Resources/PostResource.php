@@ -19,18 +19,16 @@ class PostResource extends JsonResource
      */
     public function toArray($request)
     {
-         return [
-           
+        return [
+            'post_id' => $this->id,
             'post_content' => $this->content,
-        
-               'post_owner'=>['id'=>$this->user->id,'name'=>$this->user->name,'cover_image'=>$this->user->cover_Img,"profile_image"=>$this->user->profile_Img],
-            'created_at' => $this->updated_at,
-            'updated_at' => $this->created_at,
-            'comments'=> CommentResource::collection($this->comments),
-            'images' =>ImageResource::collection($this->images),
+            'post_owner' => ['id' => $this->user->id, 'name' => $this->user->name, 'cover_image' => $this->user->cover_Img, "profile_image" => $this->user->profile_Img],
+            'date' => $this->created_at,
+            // 'updated_at' => $this->updated_at,
+            'comments' => CommentResource::collection($this->comments),
+            'images' => ImageResource::collection($this->images),
         ];
-            // return parent::toArray($request);
+        // return parent::toArray($request);
 
     }
-
 }

@@ -6,11 +6,12 @@ use App\Models\User;
 
 use Illuminate\Http\Request;
 use App\Http\Traits\AuthResponse;
+use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Validation\ValidationException;
 
 
 class AuthController extends Controller
@@ -25,7 +26,7 @@ class AuthController extends Controller
             $user = User::where("email", $request->email)->first();
 
             return $this->success([
-                'user' => $user,
+                'user' => new UserResource($user),
                 'access_token' => $user->createToken('Token ' . $user->id)->plainTextToken,
                 'token_type' => 'Bearer',
             ]);
@@ -53,7 +54,7 @@ class AuthController extends Controller
             'gender' => 'required|string',
             'email' => 'required|email|unique:users',
             'password' => ['required', 'confirmed', Password::defaults()],
-            'phone_number' => 'required|min:10',
+            'phone_number' => 'required|digits:10|numeric',
             'address' => 'required',
             // 'profile_Img' => 'required',
             // 'cover_Img' => 'required',
@@ -65,7 +66,7 @@ class AuthController extends Controller
         $user = User::create($validateUser);
 
         return $this->success([
-            'user' => $user,
+            'user' => new UserResource($user),
             'access_token' => $user->createToken('Token ' . $user->id)->plainTextToken,
             'token_type' => 'Bearer',
         ]);
