@@ -26,12 +26,13 @@ class UserResource extends JsonResource
             'role' => $this->role,
             'gender' => $this->gender,
             'phone_number' => $this->phone_number,
-            'follower_count' => $this->followers, //data
-            'following_count' => $this->following, //data
-            // 'following_count'=>count($this->followingW),//count
-            // 'follower_count' =>count($this->followingU),//count 
+            'follower_info' => $this->followers, //data
+            'following_info' => $this->following, //data
+            'following_count' => $this->followingW == null ? 0 : count($this->followingW), //count
+            'follower_count' =>  $this->followingU == null ? 0 : count($this->followingU), //count 
             //  'follower_count' =>$this->loadCount('followingU'), //data
-
+            'major' => $this->major,
+            'bio' => $this->bio,
             'posts' => PostResource::collection($this->posts),
             'comments' => $this->comments,
 

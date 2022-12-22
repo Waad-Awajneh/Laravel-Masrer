@@ -6,6 +6,7 @@ use App\Models\Comment;
 use Illuminate\Http\Request;
 use App\Http\Resources\PostResource;
 use App\Http\Resources\UserResource;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Resources\CommentResource;
 use App\Http\Controllers\AuthController;
@@ -89,3 +90,19 @@ Route::post('addFollowers/{weddingPlanner}', [UserController::class, 'addFollowe
 
 //following
 Route::get('/following/{user}', [UserController::class, 'getFollowing']);
+
+//profile
+// Route::get('/profile/{user}', [UserController::class, 'getProfile']);
+
+
+Route::middleware('auth:sanctum')->group(function () {
+    // update & delete =>  api/comment/:id
+    // create =>  api/comment/
+    // Route::resource('/comment', CommentsController::class);
+    // update & delete =>  api/post/:id
+    // create =>  api/post
+    // Route::resource('/post', PostsController::class);
+    Route::get('/profile', function () {
+        return new UserResource(Auth::user());
+    });
+});

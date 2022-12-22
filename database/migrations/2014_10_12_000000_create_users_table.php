@@ -21,6 +21,8 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('phone_number')->unique();
             $table->string('gender');
+            $table->string('bio')->default(" ");
+            $table->string('major')->default(" ");
             $table->string('role')->default("user");
             $table->string('address');
             $table->binary('cover_Img')->nullable(); //should have a default
