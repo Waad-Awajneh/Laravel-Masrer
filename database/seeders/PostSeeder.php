@@ -22,13 +22,14 @@ class PostSeeder extends Seeder
         // DB::table('posts')->delete();
 
         $faker = Factory::create();
-         $users = DB::table('users')->pluck('id');
+        $users = DB::table('users')->pluck('id');
         foreach (range(1, 50) as $index) {
             // $users = User::orderByRaw("RAND")->pluck('id');;
             Post::create([
-                'weddingP_id'     =>$faker->randomElement($users) ,
+                'weddingP_id'     => $faker->randomElement($users),
                 'content'         =>  $faker->paragraph(),
-                'created_at'    => $faker->dateTime($max = 'now')               
+                'title'         =>  $faker->sentence(),
+                'created_at'    => $faker->dateTime($max = 'now')
             ]);
         }
 
@@ -37,12 +38,12 @@ class PostSeeder extends Seeder
             $likes->likes()->attach($post);
         }
 
-        
+
         foreach (User::all() as $users) {
             $favorite = Post::inRandomOrder()->pluck('id')->unique()->toArray();
             $users->favorites()->attach($favorite);
         }
-        
+
         // foreach (Image::all() as $images) {
         //     $post = Post::inRandomOrder()->pluck('id')->toArray();
         //     $images->post()->attach($post);

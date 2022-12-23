@@ -17,6 +17,7 @@ return new class extends Migration
             $table->increments('id');
             $table->unsignedInteger("weddingP_id");
             $table->longText("content");
+            $table->longText("title");
             $table->timestamps();
             $table->foreign("weddingP_id")->references('id')->on("users")->onDelete("cascade");
         });
