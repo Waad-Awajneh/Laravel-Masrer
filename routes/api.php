@@ -34,7 +34,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 //Add New Post
-Route::post('addPost', [PostController::class, 'store']);
+Route::middleware('auth:sanctum')->group(
+    function () {
+        Route::post('addPost', [PostController::class, 'store']);
+    }
+);
 Route::get('getPosts', [PostController::class, 'index']);
 Route::get('getPost/{post}', [PostController::class, 'show']);
 //post Using Resources

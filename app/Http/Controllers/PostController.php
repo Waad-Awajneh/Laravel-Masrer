@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Traits\AuthResponse;
 use App\Models\Post;
 use App\Models\Image;
 use Illuminate\Http\Request;
@@ -9,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
+    use AuthResponse;
     /**
      * Display a listing of the resource.
      *
@@ -40,16 +42,23 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $post = Post::create($request->all());
-        // $image = Image::create(
-        //     [
-        //         'post_img' =>   $request->post_img,
-        //         'post_id' => $post->id
-        //     ]
-        // );
+        $request->validate([
+            'content' => 'required|string',
+            'title' => 'required|string',
+            'image' => 'required|mimes:jpeg,png,jpg,gif,svg|max:2048'
+        ]);
+        $post = Post::create([
+            'weddingP_id' => Auth::user()->id,
+            'content' => $request->content,
+            'title' => $request->title,
+        ]);
+        $image = base64_encode(file_get_contents($request->file('image')));
+        Image::create([
+            'post_id' => $post->id,
+            'post_img' => $image
+        ]);
 
-        // return response()->json(['post' => $post, 'image' => $image]);
-        return response()->json(['post' => $post]);
+        return $this->success('', 'post created successfully', 201);
     }
 
     /**
@@ -101,7 +110,7 @@ class PostController extends Controller
     public function addFavorite(Post $post)
     {
         $user = Auth::user();
-        $user->favorites()->attach($post->id);
+        // $user->addFavorite()->attach($post->id);
 
         return response()->json('add to favorites');
     }

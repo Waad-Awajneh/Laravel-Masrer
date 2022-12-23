@@ -13,7 +13,8 @@ class Post extends Model
     use HasFactory;
     protected $fillable = [
         "weddingP_id",
-        "content",
+        "content", "title"
+
     ];
 
     public function comments()
@@ -26,6 +27,6 @@ class Post extends Model
     }
     public function user()
     {
-        return $this->belongsTo(User::class,'weddingP_id');
+        return $this->belongsTo(User::class, 'weddingP_id');
     }
 }
