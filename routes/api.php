@@ -13,6 +13,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CommentController;
+use App\Http\Resources\FavoriteResource;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,7 +50,14 @@ Route::get('/allPosts', function () {
 
 
 //Add New Comments
-Route::post('addComment', [CommentController::class, 'store']);
+Route::middleware('auth:sanctum')->group(
+    function () {
+        Route::post('addComment', [CommentController::class, 'store']);
+        Route::delete('deleteComment/{comment}', [CommentController::class, 'destroy']);
+        Route::put('editComment/{comment}', [CommentController::class, 'update']);
+    }
+);
+
 Route::get('getComments', [CommentController::class, 'index']);
 Route::get('getComment/{comment}', [CommentController::class, 'show']);
 Route::get('CommentsByPost/{post}', [CommentController::class, 'getCommentByPost']);
@@ -77,9 +85,17 @@ Route::get('/user/{id}', function ($id) {
 
 
 //add Favorite
-Route::post('addFavorite/{post}', [PostController::class, 'addFavorite']);
+Route::middleware('auth:sanctum')->group(
+    function () {
+        Route::post('addFavorite/{post}', [PostController::class, 'addFavorite']);
+        Route::get('/getFavorite', function () {
+            return  FavoriteResource::collection(Auth::user()->favorites);
+        });
+        Route::delete('deleteFavorite/{post}', [PostController::class, 'deleteFavorite']);
+    }
+);
 
-
+// Route::get('/favorites/{users}', [UserController::class, 'getFavorite']);
 
 //add Followers
 Route::post('addFollowers/{weddingPlanner}', [UserController::class, 'addFollowers']);

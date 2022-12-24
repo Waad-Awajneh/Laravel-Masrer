@@ -111,4 +111,11 @@ class UserController extends Controller
 
         return PostResource::collection(Post::whereIn('id', $user->following->modelKeys())->get());
     }
+
+
+    public function getFavorite(User $user)
+    {
+
+        return ['fav' => $user->favorites()->get()];
+    }
 }

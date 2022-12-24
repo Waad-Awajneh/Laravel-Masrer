@@ -2,16 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 
+
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Traits\AuthResponse;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Auth;
+
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
+use A6digital\Image\Facades\DefaultProfileImage;
 
 
 class AuthController extends Controller
@@ -56,13 +59,18 @@ class AuthController extends Controller
             'password' => ['required', 'confirmed', Password::defaults()],
             'phone_number' => 'required|digits:10|numeric',
             'address' => 'required',
-            // 'profile_Img' => 'required',
+            'profile_Img' => '',
             // 'cover_Img' => 'required',
         ]);
 
+        // $profile_Img = DefaultProfileImage::create("Name Surname", 256, '#000', '#FFF');
 
+        // $img = DefaultProfileImage::create("Name Surname");
+
+        // $validateUser['profile_Img']
+        //     = $img->encode();
         $validateUser['password'] = Hash::make($request->password);
-        // error_log($validateUser->error);
+        // dd($validateUser);
         $user = User::create($validateUser);
 
         return $this->success([

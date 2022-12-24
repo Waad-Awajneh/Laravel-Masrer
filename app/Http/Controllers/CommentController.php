@@ -5,10 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\Comment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\CommentResource;
+use App\Http\Traits\AuthResponse;
 
 class CommentController extends Controller
 {
+    use AuthResponse;
     /**
      * Display a listing of the resource.
      *
@@ -39,9 +42,17 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        $comment = Comment::create($request->all());
-        error_log($comment);
-        return response()->json($comment);
+        $request->validate([
+            'comment' => 'required|string',
+            'post_id' => 'required|integer'
+        ]);
+        $comment = Comment::create([
+            'user_id' => Auth::user()->id,
+            'post_id' => $request->post_id,
+            'comment' => $request->comment
+        ]);
+
+        return $this->success('', 'comment created successfully', 201);
     }
 
     /**
@@ -75,7 +86,17 @@ class CommentController extends Controller
      */
     public function update(Request $request, Comment $comment)
     {
-        //
+        if (!$this->isAuthorize($comment)) {
+            return $this->error('', 'you are not authorize to update', 403);
+        }
+        $request->validate([
+            'comment' => 'required|string',
+        ]);
+        $comment->update([
+            'comment' => $request->comment
+        ]);
+
+        return $this->success('', 'comment updated successfully', 200);
     }
 
     /**
@@ -86,7 +107,12 @@ class CommentController extends Controller
      */
     public function destroy(Comment $comment)
     {
-        //
+        return $this->isAuthorize($comment) ? $comment->delete() : $this->error('', 'you are not authorize to delete this comment', 403);
+    }
+
+    protected function isAuthorize($comment)
+    {
+        return Auth::user()->id == $comment->user_id ? true : false;
     }
 
 

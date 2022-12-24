@@ -109,9 +109,15 @@ class PostController extends Controller
     }
     public function addFavorite(Post $post)
     {
-        $user = Auth::user();
-        // $user->addFavorite()->attach($post->id);
+
+        Auth::user()->favorites()->attach($post);
 
         return response()->json('add to favorites');
+    }
+    public function deleteFavorite(Post $post)
+    {
+
+        Auth::user()->favorites()->detach($post);
+        return response()->json('remove from favorites');
     }
 }
