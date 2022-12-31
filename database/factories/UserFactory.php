@@ -26,7 +26,7 @@ class UserFactory extends Factory
             'address' => fake()->address(),
             'cover_Img' => fake()->imageUrl($width = 640, $height = 480),
             'profile_Img' => fake()->imageUrl($width = 640, $height = 480),
-            'gender' => fake()->randomElement($array = array('male', 'female')),
+            'gender' => fake()->randomElement($array = array('Male', 'Female')),
             'phone_number' => fake()->e164PhoneNumber(),
             'bio' => fake()->sentence(),
             'major' => fake()->word()

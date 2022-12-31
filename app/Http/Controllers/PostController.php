@@ -60,6 +60,26 @@ class PostController extends Controller
 
         return $this->success('', 'post created successfully', 201);
     }
+    public function storeVideo(Request $request)
+    {
+        $request->validate([
+            'content' => 'required|string',
+            'title' => 'required|string',
+            'image' => 'required|mimes:jpeg,png,jpg,gif,svg|max:2048'
+        ]);
+        $post = Post::create([
+            'weddingP_id' => Auth::user()->id,
+            'content' => $request->content,
+            'title' => $request->title,
+        ]);
+        $image = base64_encode(file_get_contents($request->file('image')));
+        Image::create([
+            'post_id' => $post->id,
+            'post_img' => $image
+        ]);
+
+        return $this->success('', 'post created successfully', 201);
+    }
 
     /**
      * Display the specified resource.

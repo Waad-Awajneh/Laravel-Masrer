@@ -32,11 +32,11 @@ class User extends Authenticatable
 
     ];
 
-    public function followers()
+    public function following()
     {
         return $this->belongsToMany(User::class, 'follows', 'followers_id', 'following_id')->withTimestamps();
     }
-    public function following()
+    public function  followers()
     {
         return $this->belongsToMany(User::class, 'follows', 'following_id', 'followers_id')->withTimestamps();
     }

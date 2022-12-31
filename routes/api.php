@@ -79,7 +79,9 @@ Route::get('comment/{id}', function ($id) {
 Route::get('/users', function () {
     return UserResource::collection(User::all());
 });
-Route::get('/user/{id}', function ($id) {
+
+
+Route::get('/userProfile/{id}', function ($id) {
     return new UserResource(User::findOrFail($id));
 });
 
@@ -94,11 +96,27 @@ Route::middleware('auth:sanctum')->group(
         Route::delete('deleteFavorite/{post}', [PostController::class, 'deleteFavorite']);
     }
 );
+// Follow
+Route::middleware('auth:sanctum')->group(
+    function () {
+        Route::post('follow/{user}', [UserController::class, 'follow']);
+        // Route::get('/getfollower/{}', function () {
+        //     return  FavoriteResource::collection(Auth::user()->favorites);
+        // });
+        Route::delete('unFollow/{user}', [UserController::class, 'unFollow']);
+    }
+);
+//following
+Route::get('/following/{user}', [UserController::class, 'getFollowing']);
+Route::get('/getFollowers/{user}', [UserController::class, 'getFollowers']);
+
+
+
 
 // Route::get('/favorites/{users}', [UserController::class, 'getFavorite']);
 
-//add Followers
-Route::post('addFollowers/{weddingPlanner}', [UserController::class, 'addFollowers']);
+// //add Followers
+// Route::post('addFollowers/{weddingPlanner}', [UserController::class, 'addFollowers']);
 
 
 // Route::post('register', [AuthController::class, 'register'])
@@ -108,20 +126,15 @@ Route::post('addFollowers/{weddingPlanner}', [UserController::class, 'addFollowe
 // Route::post('login', [AuthController::class, 'login'])
 //     ->name('login');
 
-//following
-Route::get('/following/{user}', [UserController::class, 'getFollowing']);
 
 //profile
 // Route::get('/profile/{user}', [UserController::class, 'getProfile']);
 
 
 Route::middleware('auth:sanctum')->group(function () {
-    // update & delete =>  api/comment/:id
-    // create =>  api/comment/
-    // Route::resource('/comment', CommentsController::class);
-    // update & delete =>  api/post/:id
-    // create =>  api/post
-    // Route::resource('/post', PostsController::class);
+
+    Route::post('/editProfilePic', [UserController::class, 'updateProfilePic']);
+
     Route::get('/profile', function () {
         return new UserResource(Auth::user());
     });

@@ -11,6 +11,7 @@ use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Support\Facades\Hash;
+use App\Http\Resources\UserResourceAuth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
@@ -29,7 +30,7 @@ class AuthController extends Controller
             $user = User::where("email", $request->email)->first();
 
             return $this->success([
-                'user' => new UserResource($user),
+                'user' => new UserResourceAuth($user),
                 'access_token' => $user->createToken('Token ' . $user->id)->plainTextToken,
                 'token_type' => 'Bearer',
             ]);
