@@ -13,7 +13,10 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\VideoController;
 use App\Http\Resources\FavoriteResource;
+use App\Http\Resources\VideoResource;
+use App\Models\Video;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,6 +41,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::middleware('auth:sanctum')->group(
     function () {
         Route::post('addPost', [PostController::class, 'store']);
+        Route::post('addVideo', [VideoController::class, 'storeVideo']);
     }
 );
 Route::get('getPosts', [PostController::class, 'index']);
@@ -45,6 +49,11 @@ Route::get('getPost/{post}', [PostController::class, 'show']);
 //post Using Resources
 Route::get('/allPosts', function () {
     return PostResource::collection(Post::all());
+});
+
+Route::get('getVideo/{video}', [VideoController::class, 'show']);
+Route::get('/allVideos', function () {
+    return VideoResource::collection(Video::all());
 });
 
 

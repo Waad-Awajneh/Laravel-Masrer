@@ -58,25 +58,19 @@ class PostController extends Controller
             'post_img' => $image
         ]);
 
-        return $this->success('', 'post created successfully', 201);
-    }
-    public function storeVideo(Request $request)
-    {
-        $request->validate([
-            'content' => 'required|string',
-            'title' => 'required|string',
-            'image' => 'required|mimes:jpeg,png,jpg,gif,svg|max:2048'
-        ]);
-        $post = Post::create([
-            'weddingP_id' => Auth::user()->id,
-            'content' => $request->content,
-            'title' => $request->title,
-        ]);
-        $image = base64_encode(file_get_contents($request->file('image')));
-        Image::create([
-            'post_id' => $post->id,
-            'post_img' => $image
-        ]);
+        // $image = new Image();
+        // $video->title = 'My Video';
+        // $video->description = 'A description of my video';
+
+        // Save the video file
+        // $file = $request->file('image');
+        // $path = $file->store('public/images');
+        // Image::create([
+        //     'post_id' => $post->id,
+        //     'post_img' =>  $path
+        // ]);
+        // $image-> = $path;
+        // $image->save();
 
         return $this->success('', 'post created successfully', 201);
     }
@@ -91,6 +85,7 @@ class PostController extends Controller
     {
         // dd($post);
         $image = Image::where('post_id', $post->id)->get();
+
         return response()->json(['post' => $post, 'image' => $image]);
     }
 
