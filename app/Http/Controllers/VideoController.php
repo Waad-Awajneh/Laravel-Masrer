@@ -26,7 +26,7 @@ class VideoController extends Controller
             'title' => $request->title,
         ]);
         $video = new Video;
-        $video->post_id =  $post->id;
+        $video->post_id = $post->id;
         // $video->description = 'A description of my video';
 
         // Save the video file

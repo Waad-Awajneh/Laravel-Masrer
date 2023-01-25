@@ -2,21 +2,23 @@
 
 use App\Models\Post;
 use App\Models\User;
+use App\Models\Video;
 use App\Models\Comment;
 use Illuminate\Http\Request;
 use App\Http\Resources\PostResource;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\VideoResource;
 use Illuminate\Support\Facades\Route;
 use App\Http\Resources\CommentResource;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\CommentController;
-use App\Http\Controllers\VideoController;
 use App\Http\Resources\FavoriteResource;
-use App\Http\Resources\VideoResource;
-use App\Models\Video;
+use App\Http\Controllers\VideoController;
+use App\Http\Resources\PostSearchResource;
+use App\Http\Resources\UserSearchResource;
+use App\Http\Controllers\CommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,7 +55,7 @@ Route::get('/allPosts', function () {
 
 Route::get('getVideo/{video}', [VideoController::class, 'show']);
 Route::get('/allVideos', function () {
-    return VideoResource::collection(Video::all());
+    return response(VideoResource::collection(Video::all()))->header('Content-Type', 'video/mp4');
 });
 
 
@@ -147,4 +149,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/profile', function () {
         return new UserResource(Auth::user());
     });
+});
+
+
+//search data 
+Route::get('/search', function () {
+    return ["users" => UserSearchResource::collection(User::all()), "posts" => PostSearchResource::collection(Post::all())];
 });

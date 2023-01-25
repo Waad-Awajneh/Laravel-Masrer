@@ -45,7 +45,7 @@ class PostController extends Controller
         $request->validate([
             'content' => 'required|string',
             'title' => 'required|string',
-            'image' => 'required|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            'image' => 'required'
         ]);
         $post = Post::create([
             'weddingP_id' => Auth::user()->id,
@@ -58,18 +58,17 @@ class PostController extends Controller
             'post_img' => $image
         ]);
 
-        // $image = new Image();
-        // $video->title = 'My Video';
-        // $video->description = 'A description of my video';
 
-        // Save the video file
+        // // Save the video file
         // $file = $request->file('image');
         // $path = $file->store('public/images');
-        // Image::create([
-        //     'post_id' => $post->id,
-        //     'post_img' =>  $path
-        // ]);
-        // $image-> = $path;
+        // $image = new Image;
+        // // $image = Image::create([
+        // //     'post_id' => $post->id,
+        // //     'post_img' => $path
+        // // ]);
+        // $image->post_id = $post->id;
+        // $image->post_img = $path;
         // $image->save();
 
         return $this->success('', 'post created successfully', 201);

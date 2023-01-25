@@ -16,23 +16,32 @@ class VideoResource extends JsonResource
     public function toArray($request)
     {
 
-
-        $path = $this->path;
-
-        // Read the file contents
-        $contents = Storage::get($path);
-
-        // Return the file to the user
-        // return response($contents)
-        //     ->header('Content-Type', 'video/mp4');
+        // dd($request);
 
 
-        // return ["videoPath" =>  $contents];
-        // return ["videoPath" => $this->path];
+
+
+
+
+
+        // $path = $this->path;
+
+        // // Read the file contents
+        // // $contents = Storage::get($path);
+
+        // // Return the file to the user
+        // // return response($contents)
+        // //     ->header('Content-Type', 'video/mp4');
+
+
+        // // return ["videoPath" =>  $contents];
+        // // return ["videoPath" => $this->path];
+        // //  'url' => url('/') . '/videos/' . $this->path,
         return [
-            "videoPath" => $contents
+            "videoPath" => $this->path,
+            "video_id" => $this->id
 
         ];
-        // return parent::toArray($request);
+        // // return parent::toArray($request);
     }
 }
