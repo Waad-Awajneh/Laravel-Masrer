@@ -108,7 +108,30 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+// dd($request);
+
+            if (!$this->isAuthorize($post)) {
+                return $this->error('', 'you are not authorize to update this post ', 403);
+            }
+            $request->validate([
+                'content' => 'string',
+                'title' => 'string',
+            ]);
+
+            $post->update([
+                'content' => $request->content,
+                'title'=>$request->title,
+
+            ]);
+            $image = base64_encode(file_get_contents($request->file('post_img')));
+            Image::where('post_id', $post->id)->
+           update([
+                'post_id' => $post->id,
+                'post_img' => $image
+            ]);
+
+            return $this->success('', 'post updated successfully', 200);
+
     }
 
     /**
@@ -119,7 +142,7 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        return $this->isAuthorize($post) ? $post->delete() : $this->error('', 'you are not authorize to delete this post', 403);
     }
     public function addFavorite(Post $post)
     {
@@ -128,11 +151,16 @@ class PostController extends Controller
 
         return response()->json('add to favorites');
     }
-    
+
     public function deleteFavorite(Post $post)
     {
 
         Auth::user()->favorites()->detach($post);
         return response()->json('remove from favorites');
+    }
+
+    protected function isAuthorize($post)
+    {
+        return Auth::user()->id == $post->weddingP_id ? true : false;
     }
 }

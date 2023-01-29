@@ -60,7 +60,10 @@ class User extends Authenticatable
         return $this->hasMany(Post::class, 'weddingP_id');
     }
 
-
+    public function message()
+    {
+        return $this->hasMany(Connect_msg::class, 'weddingP_id');
+    }
 
     /**
      * The attributes that should be hidden for serialization.

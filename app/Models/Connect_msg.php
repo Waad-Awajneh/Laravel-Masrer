@@ -13,5 +13,8 @@ class Connect_msg extends Model
         "email","phone_number","event_date","message","address","contact_method"
     ];
 
-
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'weddingP_id');
+    }
 }

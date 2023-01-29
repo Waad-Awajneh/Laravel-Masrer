@@ -7,9 +7,10 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Traits\AuthResponse;
 use App\Http\Resources\PostResource;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Resources\FollowingResources;
 use App\Http\Resources\UserResource;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rules\Password;
+use App\Http\Resources\FollowingResources;
 
 class UserController extends Controller
 {
@@ -64,7 +65,7 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+
     }
 
     /**
@@ -74,9 +75,43 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $user=Auth::user();
+
+    // dd($request);
+            // if($request->oldPassword != $user->password) return $this->error('', 'password incorrect', 403);
+            // if (Auth::attempt($request->only('email', 'password')) ){ return $this->error('', 'password incorrect', 403);}
+            //  return $this->error('', 'password incorrect', 403);
+        $validateUser = $request->validate(
+             [
+            'name' => 'string',
+            'gender' => 'string',
+            'email' => 'email|unique:users',
+            'password' => [ Password::defaults()],
+            'phone_number' => 'digits:10|numeric',
+
+        ]);
+
+        $user->update([
+            'name' => $request->name,
+            'gender' => $request->gender,
+            'email' => $request->email,
+            'password' =>$request->password,
+            'phone_number' => $request->phone_number,
+            'address' => $request->address,
+
+        ]);
+
+        return $this->success('', 'user data updated successfully', 200);
+
+
+
+
+
+
+
+
     }
 
     /**
@@ -107,6 +142,8 @@ class UserController extends Controller
     //     return response()->json('add to followers');
     // }
 
+
+    // update profile picture
     public function updateProfilePic(Request $request)
     {
         // dd($request);
@@ -120,6 +157,29 @@ class UserController extends Controller
 
         return $this->success('', 'profile image updated successfully', 200);
     }
+
+
+// update cover picture
+    public function updateCoverPic(Request $request)
+    {
+        // dd($request);
+        // $request->validate([
+        //     'profile_Img' => 'required|mimes:jpeg,png,jpg,gif,svg|max:2048'
+        // ]);
+        $image = base64_encode(file_get_contents($request->file('cover_Img')));
+        Auth::user()->update([
+            'cover_Img' => $image
+        ]);
+
+        return $this->success('', 'cover image updated successfully', 200);
+    }
+
+
+
+
+
+
+
 
     public function getFollowing(User $user)
     {
