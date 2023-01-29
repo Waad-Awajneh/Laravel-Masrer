@@ -19,6 +19,7 @@ use App\Http\Controllers\VideoController;
 use App\Http\Resources\PostSearchResource;
 use App\Http\Resources\UserSearchResource;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\Connect_msgController;
 
 /*
 |--------------------------------------------------------------------------
@@ -152,7 +153,15 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 
-//search data 
+//search data
 Route::get('/search', function () {
     return ["users" => UserSearchResource::collection(User::all()), "posts" => PostSearchResource::collection(Post::all())];
 });
+
+//send message
+Route::middleware('auth:sanctum')->group(
+    function () {
+        Route::post('sendMessage/{user}', [Connect_msgController::class, 'store']);
+
+    }
+);

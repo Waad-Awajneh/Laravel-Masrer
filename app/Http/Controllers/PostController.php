@@ -128,6 +128,7 @@ class PostController extends Controller
 
         return response()->json('add to favorites');
     }
+    
     public function deleteFavorite(Post $post)
     {
 

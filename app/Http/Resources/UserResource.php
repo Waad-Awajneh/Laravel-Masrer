@@ -29,8 +29,8 @@ class UserResource extends JsonResource
             'phone_number' => $this->phone_number,
             'follower_info' => $this->followers, //data
             'following_info' => $this->following, //data
-            'following_count' => $this->followingW == null ? 0 : count($this->followingW), //count
-            'follower_count' =>  $this->followingU == null ? 0 : count($this->followingU), //count 
+            // 'following_count' => $this->followingW == null ? 0 : count($this->followingW), //count
+            // 'follower_count' =>  $this->followingU == null ? 0 : count($this->followingU), //count 
             //  'follower_count' =>$this->loadCount('followingU'), //data
 
             'major' => $this->major,
