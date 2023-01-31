@@ -28,7 +28,9 @@ class User extends Authenticatable
         'gender',
         'profile_Img',
         'cover_Img',
-        'address'
+        'address',
+        'bio',
+        'major'
 
     ];
 

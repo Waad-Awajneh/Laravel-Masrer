@@ -19,7 +19,7 @@ return new class extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('email')->unique();
-            $table->string('phone_number')->unique();
+            $table->string('phone_number');
             $table->string('gender');
             $table->string('bio')->default(" ");
             $table->string('major')->default(" ");

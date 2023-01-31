@@ -6,6 +6,7 @@ use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Traits\AuthResponse;
+use Illuminate\Support\Facades\DB;
 use App\Http\Resources\PostResource;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Auth;
@@ -79,25 +80,30 @@ class UserController extends Controller
     {
         $user=Auth::user();
 
-    // dd($request);
-            // if($request->oldPassword != $user->password) return $this->error('', 'password incorrect', 403);
-            // if (Auth::attempt($request->only('email', 'password')) ){ return $this->error('', 'password incorrect', 403);}
-            //  return $this->error('', 'password incorrect', 403);
-        $validateUser = $request->validate(
+        // $test=password_verify($request->old_password,$user->password);
+
+        $email= DB::table('users')->where('email', $request->email)->get();
+    //   dd(count($email)); 
+       if(count($email)>1)   {
+        return $this->error('', 'invalid email',405);}   
+       
+   $request->validate(
              [
             'name' => 'string',
             'gender' => 'string',
-            'email' => 'email|unique:users',
-            'password' => [ Password::defaults()],
+           'bio' => 'string',
+            'major' => 'string',
+            // 'password' => [ Password::defaults()],
             'phone_number' => 'digits:10|numeric',
-
         ]);
 
         $user->update([
-            'name' => $request->name,
-            'gender' => $request->gender,
+            'name' => $request->full_name,
+            'gender' => $request->gender, 
+            'major' => $request->major,
+            'bio' => $request->bio,
             'email' => $request->email,
-            'password' =>$request->password,
+            // 'password' =>$request->password,
             'phone_number' => $request->phone_number,
             'address' => $request->address,
 
