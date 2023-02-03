@@ -19,6 +19,8 @@ use App\Http\Controllers\VideoController;
 use App\Http\Resources\PostSearchResource;
 use App\Http\Resources\UserSearchResource;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\Connect_msgController;
+use App\Http\Resources\MassageResource;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,6 +46,9 @@ Route::middleware('auth:sanctum')->group(
     function () {
         Route::post('addPost', [PostController::class, 'store']);
         Route::post('addVideo', [VideoController::class, 'storeVideo']);
+//ToDo handel in react
+        Route::delete('deletePost/{post}', [PostController::class, 'destroy']);
+        Route::post('editPost/{post}', [PostController::class, 'update']);
     }
 );
 Route::get('getPosts', [PostController::class, 'index']);
@@ -69,6 +74,8 @@ Route::middleware('auth:sanctum')->group(
     }
 );
 
+
+
 Route::get('getComments', [CommentController::class, 'index']);
 Route::get('getComment/{comment}', [CommentController::class, 'show']);
 Route::get('CommentsByPost/{post}', [CommentController::class, 'getCommentByPost']);
@@ -90,7 +97,6 @@ Route::get('comment/{id}', function ($id) {
 Route::get('/users', function () {
     return UserResource::collection(User::all());
 });
-
 
 Route::get('/userProfile/{id}', function ($id) {
     return new UserResource(User::findOrFail($id));
@@ -141,18 +147,32 @@ Route::get('/getFollowers/{user}', [UserController::class, 'getFollowers']);
 //profile
 // Route::get('/profile/{user}', [UserController::class, 'getProfile']);
 
-
+//TODO handel cover image in react
 Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/editProfilePic', [UserController::class, 'updateProfilePic']);
-
+    Route::post('/editCoverPic', [UserController::class, 'updateCoverPic']);
+    Route::post('/updateData', [UserController::class, 'update']);
     Route::get('/profile', function () {
         return new UserResource(Auth::user());
     });
 });
 
 
-//search data 
+//search data
 Route::get('/search', function () {
     return ["users" => UserSearchResource::collection(User::all()), "posts" => PostSearchResource::collection(Post::all())];
 });
+
+
+//TODO handel in react
+//send && get  message
+Route::middleware('auth:sanctum')->group(
+    function () {
+        Route::post('sendMessage/{user}', [Connect_msgController::class, 'store']);
+        Route::get('/getMessage', function () {
+                return  MassageResource::collection(Auth::user()->message);
+            });
+    }
+
+);

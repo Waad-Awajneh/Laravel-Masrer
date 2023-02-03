@@ -6,10 +6,12 @@ use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Traits\AuthResponse;
+use Illuminate\Support\Facades\DB;
 use App\Http\Resources\PostResource;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Resources\FollowingResources;
 use App\Http\Resources\UserResource;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rules\Password;
+use App\Http\Resources\FollowingResources;
 
 class UserController extends Controller
 {
@@ -64,7 +66,7 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+
     }
 
     /**
@@ -74,9 +76,48 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $user=Auth::user();
+
+        // $test=password_verify($request->old_password,$user->password);
+
+        $email= DB::table('users')->where('email', $request->email)->get();
+    //   dd(count($email)); 
+       if(count($email)>1)   {
+        return $this->error('', 'invalid email',405);}   
+       
+   $request->validate(
+             [
+            'name' => 'string',
+            'gender' => 'string',
+           'bio' => 'string',
+            'major' => 'string',
+            // 'password' => [ Password::defaults()],
+            'phone_number' => 'digits:10|numeric',
+        ]);
+
+        $user->update([
+            'name' => $request->full_name,
+            'gender' => $request->gender, 
+            'major' => $request->major,
+            'bio' => $request->bio,
+            'email' => $request->email,
+            // 'password' =>$request->password,
+            'phone_number' => $request->phone_number,
+            'address' => $request->address,
+
+        ]);
+
+        return $this->success('', 'user data updated successfully', 200);
+
+
+
+
+
+
+
+
     }
 
     /**
@@ -107,6 +148,8 @@ class UserController extends Controller
     //     return response()->json('add to followers');
     // }
 
+
+    // update profile picture
     public function updateProfilePic(Request $request)
     {
         // dd($request);
@@ -120,6 +163,29 @@ class UserController extends Controller
 
         return $this->success('', 'profile image updated successfully', 200);
     }
+
+
+// update cover picture
+    public function updateCoverPic(Request $request)
+    {
+        // dd($request);
+        // $request->validate([
+        //     'profile_Img' => 'required|mimes:jpeg,png,jpg,gif,svg|max:2048'
+        // ]);
+        $image = base64_encode(file_get_contents($request->file('cover_Img')));
+        Auth::user()->update([
+            'cover_Img' => $image
+        ]);
+
+        return $this->success('', 'cover image updated successfully', 200);
+    }
+
+
+
+
+
+
+
 
     public function getFollowing(User $user)
     {

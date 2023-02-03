@@ -28,7 +28,9 @@ class User extends Authenticatable
         'gender',
         'profile_Img',
         'cover_Img',
-        'address'
+        'address',
+        'bio',
+        'major'
 
     ];
 
@@ -58,6 +60,11 @@ class User extends Authenticatable
     public function posts()
     {
         return $this->hasMany(Post::class, 'weddingP_id');
+    }
+
+    public function message()
+    {
+        return $this->hasMany(Connect_msg::class, 'weddingP_id');
     }
 
     /**
