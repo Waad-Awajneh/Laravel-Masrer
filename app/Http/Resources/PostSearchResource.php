@@ -17,7 +17,7 @@ class PostSearchResource extends JsonResource
         return [
             'post_id' => $this->id,
             'post_content' => $this->content,
-            'post_owner' => $this->user->name,
+            'post_owner' => ['id' => $this->user->id, 'name' => $this->user->name, 'cover_image' => $this->user->cover_Img, "profile_image" => $this->user->profile_Img, "gender" => $this->user->gender],
             'date' => $this->created_at,
             'title' => $this->title,
             'images' => ImageResource::collection($this->images),

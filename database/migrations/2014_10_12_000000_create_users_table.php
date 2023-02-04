@@ -19,12 +19,12 @@ return new class extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('email')->unique();
-            $table->string('phone_number');
-            $table->string('gender');
+            $table->string('phone_number')->nullable();
+            $table->string('gender')->default("undefined_gender");
             $table->string('bio')->default(" ");
             $table->string('major')->default(" ");
             $table->string('role')->default("user");
-            $table->string('address');
+            $table->string('address')->default("Address");
             $table->binary('cover_Img')->nullable(); //should have a default
             $table->binary('profile_Img')->nullable(); //should have a default
             $table->timestamp('email_verified_at')->nullable();

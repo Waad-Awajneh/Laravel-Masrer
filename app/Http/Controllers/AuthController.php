@@ -45,6 +45,27 @@ class AuthController extends Controller
 
 
 
+    // public function SignUpOrLogin(Request $request)
+    // {
+    //     // $user = User::where("email", $request->email)->first();
+
+    //     if ($user) {
+    //         // return response()->json([
+    //         //     'SignUpOrLogin' => 'login'
+
+    //         // ]);
+    //         return true
+    //     } else {
+    //         return false;
+    //         // return response()->json([
+    //         //     'SignUpOrLogin' => 'signup'
+
+    //         // ]);
+    //     }
+    // }
+
+
+
 
 
     public function register(Request $request)
@@ -82,5 +103,45 @@ class AuthController extends Controller
         // } catch (\Throwable $th) {
         //     $this->error($th->getMessage(), 'error', 500);
         // }
+    }
+
+    public function googleRegister(Request $request)
+    {
+
+
+        $validateUser = $request->validate([
+            'name' => 'required|string',
+
+            'email' => 'required|email|unique:users',
+            'password' => ['required', Password::defaults()],
+            'profile_Img' => 'string',
+
+        ]);
+
+        $validateUser['password'] = Hash::make($request->password);
+
+        $user = User::create($validateUser);
+
+        return $this->success([
+            'user' => new UserResource($user),
+            'access_token' => $user->createToken('Token ' . $user->id)->plainTextToken,
+            'token_type' => 'Bearer',
+        ]);
+    }
+
+    public function googleLogin(Request $request)
+    {
+        $user = User::where("email", $request->email)->first();
+
+        if ($user) {
+            return $this->success([
+                'signUp' => true,
+                'user' => new UserResourceAuth($user),
+                'access_token' => $user->createToken('Token ' . $user->id)->plainTextToken,
+                'token_type' => 'Bearer',
+            ]);
+        } else {
+            AuthController::googleRegister($request);
+        }
     }
 }

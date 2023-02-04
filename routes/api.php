@@ -46,7 +46,7 @@ Route::middleware('auth:sanctum')->group(
     function () {
         Route::post('addPost', [PostController::class, 'store']);
         Route::post('addVideo', [VideoController::class, 'storeVideo']);
-//ToDo handel in react
+        //ToDo handel in react
         Route::delete('deletePost/{post}', [PostController::class, 'destroy']);
         Route::post('editPost/{post}', [PostController::class, 'update']);
     }
@@ -171,8 +171,14 @@ Route::middleware('auth:sanctum')->group(
     function () {
         Route::post('sendMessage/{user}', [Connect_msgController::class, 'store']);
         Route::get('/getMessage', function () {
-                return  MassageResource::collection(Auth::user()->message);
-            });
+            return  MassageResource::collection(Auth::user()->message);
+        });
     }
 
 );
+
+
+
+
+Route::post('SignUpOrLogin', [AuthController::class, 'SignUpOrLogin'])
+    ->name('SignUpOrLogin');
