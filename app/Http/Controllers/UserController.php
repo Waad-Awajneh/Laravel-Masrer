@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Resources\PostResource;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 use App\Http\Resources\FollowingResources;
 
@@ -66,7 +67,6 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-
     }
 
     /**
@@ -78,46 +78,42 @@ class UserController extends Controller
      */
     public function update(Request $request)
     {
-        $user=Auth::user();
+        $user = Auth::user();
 
-        // $test=password_verify($request->old_password,$user->password);
+        $test = password_verify($request->old_password, $user->password);
 
-        $email= DB::table('users')->where('email', $request->email)->get();
-    //   dd(count($email)); 
-       if(count($email)>1)   {
-        return $this->error('', 'invalid email',405);}   
-       
-   $request->validate(
-             [
-            'name' => 'string',
-            'gender' => 'string',
-           'bio' => 'string',
-            'major' => 'string',
-            // 'password' => [ Password::defaults()],
-            'phone_number' => 'digits:10|numeric',
-        ]);
+
+        $email = DB::table('users')->where('email', $request->email)->get();
+        //   dd(count($email)); 
+        if (count($email) > 1) {
+            return $this->error('', 'invalid email', 405);
+        }
+        if (!$test)  return $this->error('', 'incorrect Password', 405);
+
+        $request->validate(
+            [
+                'name' => 'string',
+                'gender' => 'string',
+                'bio' => 'string',
+                'major' => 'string',
+                'password' => [Password::defaults()],
+                'phone_number' => 'digits:10|numeric',
+            ]
+        );
 
         $user->update([
             'name' => $request->full_name,
-            'gender' => $request->gender, 
+            'gender' => $request->gender,
             'major' => $request->major,
             'bio' => $request->bio,
             'email' => $request->email,
-            // 'password' =>$request->password,
+            'password' => Hash::make($request->password),
             'phone_number' => $request->phone_number,
             'address' => $request->address,
 
         ]);
 
         return $this->success('', 'user data updated successfully', 200);
-
-
-
-
-
-
-
-
     }
 
     /**
@@ -165,7 +161,7 @@ class UserController extends Controller
     }
 
 
-// update cover picture
+    // update cover picture
     public function updateCoverPic(Request $request)
     {
         // dd($request);

@@ -71,8 +71,7 @@ class AuthController extends Controller
     public function register(Request $request)
     {
 
-        // dd($request);
-        //TODO: handle Photo (binary file)
+
         // try {
         $validateUser = $request->validate([
             'name' => 'required|string',
@@ -85,12 +84,7 @@ class AuthController extends Controller
             // 'cover_Img' => 'required',
         ]);
 
-        // $profile_Img = DefaultProfileImage::create("Name Surname", 256, '#000', '#FFF');
 
-        // $img = DefaultProfileImage::create("Name Surname");
-
-        // $validateUser['profile_Img']
-        //     = $img->encode();
         $validateUser['password'] = Hash::make($request->password);
         // dd($validateUser);
         $user = User::create($validateUser);
@@ -100,8 +94,9 @@ class AuthController extends Controller
             'access_token' => $user->createToken('Token ' . $user->id)->plainTextToken,
             'token_type' => 'Bearer',
         ]);
-        // } catch (\Throwable $th) {
-        //     $this->error($th->getMessage(), 'error', 500);
+        // } catch () {
+
+
         // }
     }
 
