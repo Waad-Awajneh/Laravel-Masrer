@@ -106,7 +106,6 @@ class AuthController extends Controller
 
         $validateUser = $request->validate([
             'name' => 'required|string',
-
             'email' => 'required|email|unique:users',
             'password' => ['required', Password::defaults()],
             'profile_Img' => 'string',
